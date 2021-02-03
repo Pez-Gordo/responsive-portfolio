@@ -1,4 +1,5 @@
 //global variables
+var border;
 // asignamos el div con el id="map" a la propiedad map del objeto "L". L viene de "Leaflet"
 var map = L.map('map')
 // Markers cluster for a better handling
@@ -11,24 +12,31 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ytVhVPQvm
     crossOrigin: true
 }).addTo(map)
 
-let countries; // will contain "fetched" data
-const countriesList = document.getElementById("countries");
+$.ajax({
+	url: "../gazetteer/php/geoJson.php",
+	type: 'POST',
+	dataType: "json",
+	
+	success: function(result) {
+		console.log('populate options' , result);
+        if (result.status.name == "ok") {
+            for (var i=0; i<result.data.border.features.length; i++) {
+                        $('#countries').append($('<option>', {
+                            value: result.data.border.features[i].properties.iso_a3,
+                            text: result.data.border.features[i].properties.name,
+                        }));
+                    }
+                }
+            //sort options alphabetically
+            $("#countries").html($("#countries option").sort(function (a, b) {
+                return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+            }))
+        }
+      });
 
-
-fetch("https://restcountries.eu/rest/v2/all")
-.then(res => res.json())
-.then(data => initialize(data))
-.catch(err => console.log("Error:", err));
-
-function initialize(countriesData) {
-  countries = countriesData;
-  console.log(countriesData);
-  let options = "";
-  countries.forEach(country => options+=`<option value="${country.alpha2Code}">${country.name}</option>`);
-  countriesList.innerHTML = options;
-  //countriesList.selectedIndex = Math.floor(Math.random()*countriesList.length); //  --- Instead of this go straight to my country
-
-  var success = function(position){
+  /*
+  
+      var success = function(position){
 
     var latitud = position.coords.latitude,
         longitud = position.coords.longitude;
@@ -112,6 +120,8 @@ $('#clear_markers').click(function () {
     });
 });
 
+
+*/
 
 
 
