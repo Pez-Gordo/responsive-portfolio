@@ -44,7 +44,7 @@ function initialize(countriesData) {
     // Here starts our asynchronous JavaScript code, but instead of XML we are using JSON
     $.ajax({
       // Parameters
-      url: "../php/functions.php",
+      url: "../gazetteer/php/functions.php",
       type: "POST",
       dataType: "json",
       data: dataToSend,
@@ -52,7 +52,7 @@ function initialize(countriesData) {
       success: function (result) {
 
         $('#countries').val(result.data[0].countryCode).change();
-
+        console.log(result.data[0].countryCode)
         displayCountryInfo(countriesList[countriesList.selectedIndex].value);
         
       },
