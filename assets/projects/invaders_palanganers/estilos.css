@@ -1,0 +1,16 @@
+body {
+    width: 600px;
+    margin: 0 auto;
+    background: silver;
+}
+
+h1 {
+    font-family: Arial;
+    text-align: center;
+}
+
+#miCanvas {
+    border: groove 2px white;
+    background: black;
+    box-shadow: 10px 10px 10px #888888;
+}

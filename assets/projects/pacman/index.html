@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<!-- New implementations
+
+    1.- Restyling to look a bit more like the classic pacman game. Smaller pac-dots, dark background
+        brigther ghost colors. Border radius to perform ghost shape. This changes made the game easier 
+        for human eyes as the contrast with dark background is higer.
+    2.- Fixed bug: The game never finished if you eat any ghost. To solve it, I used an additional variable
+        to store eaten-ghost points and added them to the total score at the end of the game
+    3.- Added a couple of bricks at ghosts place to make it easier for them to get out. Last ghost
+        was never able to get out before this change.
+
+-->
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>Pac-man</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="grid"></div>
+
+<h3>Score:<span id="score"></span></h3>
+<script src="app.js" charset="utf-8"></script>
+</body>
+</html>
+
+

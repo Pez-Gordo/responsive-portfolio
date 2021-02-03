@@ -1,0 +1,42 @@
+body {
+  background-color: darkgrey;
+}
+
+#boardcanvas {
+  /*position: relative;*/
+  border: solid 5px green;
+  background-color: black;
+}
+
+h1 {
+  padding-left: 0px;
+  /*position: relative;*/
+}
+
+#spangreen {
+  color: green;
+}
+
+#spanyellow {
+  color: yellow;
+}
+
+#spanred {
+  color: red;
+}
+
+
+
+#scoreboard {
+  font-size: 25;  
+  padding-left: 150px;
+  
+}
+
+#scoreboardPara {
+    font-size: 40;
+    color: blue;
+    padding-left: 100px;
+    
+    
+}

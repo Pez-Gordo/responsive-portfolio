@@ -1,0 +1,61 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Interactive maps with Leaflet</title>
+    <meta name="description" content="Maps">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    
+    <!--
+    <p><div id="flag-container">
+        <img src="" alt="">
+    </div></p>-->
+    <div id="info-container">
+        
+        <p>Your position:</p><br>
+        <span>Lat: </span><input id="selLat" type="text" size="35" min="-90" max="90" class="input">
+        <br/>
+    
+        <span>Lng: </span><input id="selLng" type="text" size="35" min="-180" max="80" class="input">
+        <br/>
+        
+        <p>Country: 
+        <select id="countries">       
+            <option value="" disabled selected>Select country</option>
+        </select>
+        </p>
+        <button type="submit" id="clear_markers">Clear Markers</button>
+          
+        
+    </div>
+    
+    
+    <div id="map"><img id="logo" src="./img/itcslogo.png" /></div>
+    
+    
+    <script src="js/main.js"></script>
+ 
+</body>
+<footer>
+This map has been designed by: PeZ
+
+</footer>
+</html>
+
+    
