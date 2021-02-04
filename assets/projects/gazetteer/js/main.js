@@ -15,12 +15,16 @@ let flagArray = true;
 var map = L.map('map').fitWorld();
 // Markers cluster for a better handling
 //var myMarkers = new L.featureGroup().addTo(map);
-var customIcon = new L.Icon({
-  iconUrl: '../img/marker2.png',
+var customIconRed = new L.Icon({
+  iconUrl: '../gazetteer/img/marker.png',
   iconSize: [50, 50],
   iconAnchor: [25, 50]
 });
-
+var customIconOrange = new L.Icon({
+  iconUrl: '../gazetteer/img/marker_orange.png',
+  iconSize: [50, 50],
+  iconAnchor: [25, 50]
+});
 
 // asignamos maptiler como nuestra gradilla 
 L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ytVhVPQvmg9nn3rYyj1s', {
@@ -67,7 +71,7 @@ const successCallback = (position) => {
           currentLat = result.data[0].geometry.lat;
           currentLng = result.data[0].geometry.lng;
 
-          L.marker([currentLat, currentLng], {icon:customIcon}).addTo(map).bindPopup("You are in: <br><br><br>" + result.data[0].components.postcode + "<br><br>" +
+          L.marker([currentLat, currentLng], {icon: customIconRed}).addTo(map).bindPopup("You are in: <br><br><br>" + result.data[0].components.postcode + "<br><br>" +
                                                                                               result.data[0].components.suburb + " suburb <br><br>" +
                                                                                               result.data[0].components.town + " town <br><br>" +
                                                                                               result.data[0].components.state + " state <br><br>" +
@@ -406,7 +410,7 @@ map.on('click', function(e) {
 
         
 
-        L.marker([currentLat, currentLng]).addTo(map).bindPopup("You clicked in: " + result.data[0].components.country);
+        L.marker([currentLat, currentLng], {icon: customIconOrange}).addTo(map).bindPopup("You clicked in: " + result.data[0].components.country);
 
         $("selectOpt select").val(result.data[0].components["ISO_3166-1_alpha-3"]);
         
