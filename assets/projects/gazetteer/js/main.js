@@ -14,7 +14,12 @@ let flagArray = true;
 // asignamos el div con el id="map" a la propiedad map del objeto "L". L viene de "Leaflet"
 var map = L.map('map').fitWorld();
 // Markers cluster for a better handling
-var myMarkers = new L.featureGroup().addTo(map);
+//var myMarkers = new L.featureGroup().addTo(map);
+var customIcon = new L.Icon({
+  iconUrl: '../img/marker2.png',
+  iconSize: [50, 50],
+  iconAnchor: [25, 50]
+});
 
 
 // asignamos maptiler como nuestra gradilla 
@@ -62,7 +67,7 @@ const successCallback = (position) => {
           currentLat = result.data[0].geometry.lat;
           currentLng = result.data[0].geometry.lng;
 
-          L.marker([currentLat, currentLng]).addTo(map).bindPopup("You are in: <br><br><br>" + result.data[0].components.postcode + "<br><br>" +
+          L.marker([currentLat, currentLng], {icon:customIcon}).addTo(map).bindPopup("You are in: <br><br><br>" + result.data[0].components.postcode + "<br><br>" +
                                                                                               result.data[0].components.suburb + " suburb <br><br>" +
                                                                                               result.data[0].components.town + " town <br><br>" +
                                                                                               result.data[0].components.state + " state <br><br>" +
