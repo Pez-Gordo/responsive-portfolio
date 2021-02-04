@@ -12,8 +12,10 @@ html, body, #map {
 }
 
 .navbar {
-  background-color: #e3f2fd;
+  background-color: #fbb8d2;
 }
+
+
 h3 {
   padding-left: 1rem;
 }
@@ -22,8 +24,18 @@ h3 {
 }
 #btnRun{
   margin-left: .5rem;
-  
+  background-color: #52d241;
+  border: 1px solid #52d241;
+  font-weight: bold;
 }
+
+#btnReset{
+  margin-left: .5rem;
+  background-color: #52d241;
+  border: 1px solid #52d241;
+  font-weight: bold;
+}
+  /* Info container section styles*/
 
 .modal-body {
 
@@ -31,6 +43,16 @@ h3 {
 
   overflow-y: auto;
 
+  /*background-color: #fbb8d2;*/
+
+}
+
+.modal {
+  background-color: #fbb8d2;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  background-color: #d4fece;
 }
 
 /*weather section styles*/

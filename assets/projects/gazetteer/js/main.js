@@ -69,9 +69,9 @@ const successCallback = (position) => {
           console.log(textStatus, errorThrown);
       }
   }); 
-  }
+}
 
-  const errorCallback = (error) => {
+const errorCallback = (error) => {
           console.error(error);
 }
 navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -98,7 +98,7 @@ $('#selCountry').on('change', function() {
       console.log('all borders result', result);
 
       if (map.hasLayer(border)) {
-        //map.removeLayer(border);
+        map.removeLayer(border);
       }
           console.log(result.data.border.features)
           let countryArray = [];
@@ -133,12 +133,13 @@ $('#selCountry').on('change', function() {
           border = L.geoJSON(countryOptionTextArray[0], {
                                                           color: 'lime',
                                                           weight: 3,
-                                                          opacity: 0.65
+                                                          opacity: 0.75
                                                         }).addTo(map);
           let bounds = border.getBounds();
                   map.flyToBounds(bounds, {
-                  padding: [0, 35], 
-                  duration: 2
+                  padding: [35, 35], 
+                  duration: 2,
+                  //maxZoom: 6
               });
               
     },
@@ -365,4 +366,40 @@ $('#btnRun').click(function() {
   }); 
 });
 
+// New event for map click
+map.on('click', function(e) {        
+  var popLocation= e.latlng;
+  console.log('<<---popLocation--->>', popLocation.lat)
+  $.ajax({
+    url: "../gazetteer/php/openCage.php",
+    type: 'GET',
+    dataType: 'json',
+    data: {
+        lat: popLocation.lat,
+        lng: popLocation.lng,
+    },
+
+    success: function(result) {
+        console.log('openCage PHP',result);
+        currentLat = result.data[0].geometry.lat;
+        currentLng = result.data[0].geometry.lng;
+
+        L.marker([currentLat, currentLng]).addTo(map).bindPopup("You clicked in: " + result.data[0].components.country);
+
+        $("selectOpt select").val(result.data[0].components["ISO_3166-1_alpha-3"]);
+        
+        let currentCountry = result.data[0].components["ISO_3166-1_alpha-3"];
+        $("#selCountry").val(currentCountry).change();
+        
+    
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+    }
+});
+  //var popup = L.popup()
+  //.setLatLng(popLocation)
+  //.setContent('<p>Hello world!<br />This is a nice popup.</p>')
+  //.openOn(map);        
+});
 
