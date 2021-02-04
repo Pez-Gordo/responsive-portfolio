@@ -120,7 +120,7 @@ $('#selCountry').on('change', function() {
       if (map.hasLayer(border)) {
         map.removeLayer(border);
       }
-          console.log(result.data.border.features)
+          //console.log(result.data.border.features)
           let countryArray = [];
           let countryOptionTextArray = [];
           let fullCountryArray = [];
@@ -152,8 +152,8 @@ $('#selCountry').on('change', function() {
                  countryOptionTextArray.push(result.data.border.features[i]);
              }
           };
-          console.log('country array', countryArray);
-          console.log('Odd Array', countryOptionTextArray)
+          //console.log('country array', countryArray);
+          //console.log('Odd Array', countryOptionTextArray)
           border = L.geoJSON(countryOptionTextArray[0], {
                                                           color: 'lime',
                                                           weight: 3,
@@ -393,7 +393,7 @@ $('#btnRun').click(function() {
 // New event for map click
 map.on('click', function(e) {        
   var popLocation= e.latlng;
-  console.log('<<---popLocation--->>', popLocation.lat)
+  //console.log('<<---popLocation--->>', popLocation.lat)
   $.ajax({
     url: "../gazetteer/php/openCage.php",
     type: 'GET',
@@ -422,10 +422,6 @@ map.on('click', function(e) {
     error: function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus, errorThrown);
     }
-});
-  //var popup = L.popup()
-  //.setLatLng(popLocation)
-  //.setContent('<p>Hello world!<br />This is a nice popup.</p>')
-  //.openOn(map);        
+});        
 });
 
