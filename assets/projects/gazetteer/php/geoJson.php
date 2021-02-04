@@ -3,6 +3,7 @@
 	$executionStartTime = microtime(true) / 1000;
 	
 	$result = file_get_contents('../json/countryBorders.geo.json');
+    
 
     $border = json_decode($result,true);
     $countryInfo = json_decode($result,true);

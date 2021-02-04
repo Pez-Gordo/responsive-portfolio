@@ -98,39 +98,48 @@ $('#selCountry').on('change', function() {
       console.log('all borders result', result);
 
       if (map.hasLayer(border)) {
-        map.removeLayer(border);
-            }
+        //map.removeLayer(border);
+      }
+          console.log(result.data.border.features)
+          let countryArray = [];
+          let countryOptionTextArray = [];
+          let fullCountryArray = [];
+          
+          for (let i = 0; i < result.data.border.features.length; i++) {
+            fullCountryArray.push(result.data.border.features[i])
+            
+          }
+          for (let i = 0; i < fullCountryArray.length; i++) {
 
-            let countryArray = [];
-            let countryOptionTextArray = [];
+            L.geoJSON(fullCountryArray[i], {
+              color: '#ff2176',
+              weight: 2,
+              opacity: 0.25
+            }).addTo(map);
+          }
 
-            for (let i = 0; i < result.data.border.features.length; i++) {
-                 if (result.data.border.features[i].properties.iso_a3 === countryCode) {
-                    countryArray.push(result.data.border.features[i]);
-                }
-            };
-
-            for (let i = 0; i < result.data.border.features.length; i++) {
-                if (result.data.border.features[i].properties.name === countryOptionText) {
-                   countryOptionTextArray.push(result.data.border.features[i]);
-               }
-            };
-
-            console.log('country array', countryArray);
-
-            console.log('Odd Array', countryOptionTextArray)
-
-            border = L.geoJSON(countryOptionTextArray[0], {
-                                                            color: '#ff7800',
-                                                            weight: 2,
-                                                            opacity: 0.65
-                                                          }).addTo(map);
-
-            let bounds = border.getBounds();
-                    map.flyToBounds(bounds, {
-                    padding: [0, 35], 
-                    duration: 2
-                });
+          for (let i = 0; i < result.data.border.features.length; i++) {
+               if (result.data.border.features[i].properties.iso_a3 === countryCode) {
+                  countryArray.push(result.data.border.features[i]);
+              }
+          };
+          for (let i = 0; i < result.data.border.features.length; i++) {
+              if (result.data.border.features[i].properties.name === countryOptionText) {
+                 countryOptionTextArray.push(result.data.border.features[i]);
+             }
+          };
+          console.log('country array', countryArray);
+          console.log('Odd Array', countryOptionTextArray)
+          border = L.geoJSON(countryOptionTextArray[0], {
+                                                          color: 'lime',
+                                                          weight: 3,
+                                                          opacity: 0.65
+                                                        }).addTo(map);
+          let bounds = border.getBounds();
+                  map.flyToBounds(bounds, {
+                  padding: [0, 35], 
+                  duration: 2
+              });
               
     },
     error: function(jqXHR, textStatus, errorThrown) {
