@@ -1,7 +1,7 @@
 //global variables
 var border;
 // asignamos el div con el id="map" a la propiedad map del objeto "L". L viene de "Leaflet"
-var map = L.map('map')
+var map = L.map('map').fitWorld();
 // Markers cluster for a better handling
 var myMarkers = new L.featureGroup().addTo(map);
 
@@ -12,6 +12,7 @@ L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ytVhVPQvm
     crossOrigin: true
 }).addTo(map)
 
+// A more programatically way to build the countries <select> list
 $.ajax({
 	url: "../gazetteer/php/geoJson.php",
 	type: 'POST',
@@ -21,18 +22,126 @@ $.ajax({
 		console.log('populate options' , result);
         if (result.status.name == "ok") {
             for (var i=0; i<result.data.border.features.length; i++) {
-                        $('#countries').append($('<option>', {
+                        $('#selCountry').append($('<option>', {
                             value: result.data.border.features[i].properties.iso_a3,
                             text: result.data.border.features[i].properties.name,
                         }));
                     }
                 }
             //sort options alphabetically
-            $("#countries").html($("#countries option").sort(function (a, b) {
+            $("#selCountry").html($("#selCountry option").sort(function (a, b) {
                 return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
             }))
         }
       });
+
+// Locating user's device and getting info from openCage API
+const successCallback = (position) => {
+  $.ajax({
+      url: "../gazetteer/php/openCage.php",
+      type: 'GET',
+      dataType: 'json',
+      data: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+      },
+
+      success: function(result) {
+          console.log('openCage PHP',result);
+          currentLat = result.data[0].geometry.lat;
+          currentLng = result.data[0].geometry.lng;
+
+          L.marker([currentLat, currentLng]).addTo(map).bindPopup("You are in: <br><br><br>" + result.data[0].components.postcode + "<br><br>" +
+                                                                                              result.data[0].components.suburb + " suburb <br><br>" +
+                                                                                              result.data[0].components.town + " town <br><br>" +
+                                                                                              result.data[0].components.state + " state <br><br>" +
+                                                                                              result.data[0].components.country + " <br><br>" 
+                                                                                        );
+
+          $("selectOpt select").val(result.data[0].components["ISO_3166-1_alpha-3"]);
+          
+          let currentCountry = result.data[0].components["ISO_3166-1_alpha-3"];
+          $("#selCountry").val(currentCountry).change();
+          
+      
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }
+  }); 
+  }
+
+  const errorCallback = (error) => {
+          console.error(error);
+}
+navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+
+// adding borders to our map
+
+$('#selCountry').on('change', function() {
+  let countryCode = $('#selCountry').val();
+  let countryOptionText= $('#selCountry').find('option:selected').text();
+  
+  //default to home tab
+  const showFirstTab = function () {
+         $('#nav-home-tab').tab('show');
+       }
+  showFirstTab();
+
+  $.ajax({
+    url: "../gazetteer/php/geoJson.php",
+    type: 'POST',
+    dataType: 'json',
+    success: function(result) {
+
+      console.log('all borders result', result);
+
+      if (map.hasLayer(border)) {
+        map.removeLayer(border);
+            }
+
+            let countryArray = [];
+            let countryOptionTextArray = [];
+
+            for (let i = 0; i < result.data.border.features.length; i++) {
+                 if (result.data.border.features[i].properties.iso_a3 === countryCode) {
+                    countryArray.push(result.data.border.features[i]);
+                }
+            };
+
+            for (let i = 0; i < result.data.border.features.length; i++) {
+                if (result.data.border.features[i].properties.name === countryOptionText) {
+                   countryOptionTextArray.push(result.data.border.features[i]);
+               }
+            };
+
+            console.log('country array', countryArray);
+
+            console.log('Odd Array', countryOptionTextArray)
+
+            border = L.geoJSON(countryOptionTextArray[0], {
+                                                            color: '#ff7800',
+                                                            weight: 2,
+                                                            opacity: 0.65
+                                                          }).addTo(map);
+
+            let bounds = border.getBounds();
+                    map.flyToBounds(bounds, {
+                    padding: [0, 35], 
+                    duration: 2
+                });
+              
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      // your error code
+      console.log(textStatus, errorThrown);
+    }
+  }); 
+});
+
+
+
 
   /*
   
