@@ -1,5 +1,16 @@
 //global variables
 var border;
+var currencyCode;
+var countryName;
+let capitalCityWeather;
+let capitalCityLat;
+let capitalCityLon;
+let iso2CountryCode;
+let capitalCity;
+
+
+let flagArray = true;
+
 // asignamos el div con el id="map" a la propiedad map del objeto "L". L viene de "Leaflet"
 var map = L.map('map').fitWorld();
 // Markers cluster for a better handling
@@ -109,13 +120,17 @@ $('#selCountry').on('change', function() {
             fullCountryArray.push(result.data.border.features[i])
             
           }
-          for (let i = 0; i < fullCountryArray.length; i++) {
+          if (flagArray){
+            for (let i = 0; i < fullCountryArray.length; i++) {
 
-            L.geoJSON(fullCountryArray[i], {
-              color: '#ff2176',
-              weight: 2,
-              opacity: 0.25
-            }).addTo(map);
+              L.geoJSON(fullCountryArray[i], {
+                color: '#ff2176',
+                weight: 2,
+                opacity: 0.25
+              }).addTo(map);
+
+            }
+            flagArray = false;
           }
 
           for (let i = 0; i < result.data.border.features.length; i++) {
@@ -160,7 +175,7 @@ $('#btnRun').click(function() {
           country: $('#selCountry').val()   
       },
       success: function(result) {
-          
+        
           console.log('restCountries', result);
           if (result.status.name == "ok") {
               currencyCode = result.currency.code;
@@ -181,7 +196,7 @@ $('#btnRun').click(function() {
                   success: function(result) {
                     console.log('wiki info', result);
                     $('#txtWikiImg').html('<img src=' + result.thumbnail.source +'><br>');
-                    $('#txtWiki').html('Wikipedia: ' + result.extract_html +'<br>');
+                    $('#txtWiki').html(result.extract_html +'<br>');
                   },
         
                   error: function(jqXHR, textStatus, errorThrown) {
@@ -383,6 +398,8 @@ map.on('click', function(e) {
         console.log('openCage PHP',result);
         currentLat = result.data[0].geometry.lat;
         currentLng = result.data[0].geometry.lng;
+
+        
 
         L.marker([currentLat, currentLng]).addTo(map).bindPopup("You clicked in: " + result.data[0].components.country);
 
