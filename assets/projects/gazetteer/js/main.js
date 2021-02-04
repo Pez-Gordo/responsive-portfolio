@@ -140,98 +140,220 @@ $('#selCountry').on('change', function() {
   }); 
 });
 
-
-
-
-  /*
-  
-      var success = function(position){
-
-    var latitud = position.coords.latitude,
-        longitud = position.coords.longitude;
-
-    //console.log(latitud, longitud)
-    $("#selLat").val(latitud);
-    $("#selLng").val(longitud);
-    
-    var dataToSend = {
-      lat: $("#selLat").val(),
-      lng: $("#selLng").val(),
-    };
-    // Here starts our asynchronous JavaScript code, but instead of XML we are using JSON
-    $.ajax({
-      // Parameters
-      url: "../gazetteer/php/functions.php",
-      type: "POST",
-      dataType: "json",
-      data: dataToSend,
-      // In case of success
-      success: function (result) {
-
-        $('#countries').val(result.data[0].countryCode).change();
-        console.log(result.data[0].countryCode)
-        displayCountryInfo(countriesList[countriesList.selectedIndex].value);
+// fetching info from rest countries API
+$('#btnRun').click(function() {
+  $.ajax({
+      url: "../gazetteer/php/restCountries.php",
+      type: 'POST',
+      dataType: 'json',
+      data: {
+          country: $('#selCountry').val()   
+      },
+      success: function(result) {
+          
+          console.log('restCountries', result);
+          if (result.status.name == "ok") {
+              currencyCode = result.currency.code;
+              capitalCityWeather= result.data.capital.toLowerCase();
+              iso2CountryCode = result.data.alpha2Code;
+              var countryName2 = result.data.name;
+              countryName = countryName2.replace(/\s+/g, '_');
+              
+              $('#txtName').html(result['data']['name']+ '<br>');
+              $('#txtCurrency').html('Currency: ' + result.currency.name + '<br>');
+              $('#txtCurrencyCode').html('Currency Code: ' + result.currency.code + '<br>');
+          
+      //wikipedia country extracts
+              $.ajax({
+                  url:'https://en.wikipedia.org/api/rest_v1/page/summary/' + countryName,
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function(result) {
+                    console.log('wiki info', result);
+                    $('#txtWikiImg').html('<img src=' + result.thumbnail.source +'><br>');
+                    $('#txtWiki').html('Wikipedia: ' + result.extract_html +'<br>');
+                  },
         
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              });
+      //Geonames Country Info
+              $.ajax({
+                  url: "../gazetteer/php/getCountryInfo.php",
+                  type: 'GET',
+                  dataType: 'json',
+                  data: {
+                      geonamesInfo: iso2CountryCode,
+                  },
+                  success: function(result) {
+                      console.log('Geonames Data', result);
+                      if (result.status.name == "ok") {
+                        $('#txtCapital').html('Capital: '+result.data[0].capital+ '<br>');
+                        $('#txtCapital2').html('<strong>' + result.data[0].capital+ '\'\s Weather</strong><br>');
+                        $('#txtAreaInSqKm').html('Area in Sq Km: '+result.data[0].areaInSqKm+ '<br>');
+                        $('#txtContinent').html('Continent: '+result.data[0].continent+ '<br>');
+                        $('#txtPopulation').html('Population: '+result.data[0].population+ '<br>');
+                        $('#txtLanguages').html('Languages: '+ result.data[0].languages + '<br>');
+                      }
+                    },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              });
+      
+              //News API
+              $.ajax({
+                  url: "../gazetteer/php/news.php",
+                  type: 'GET',
+                  dataType: 'json',
+                  data: {
+                      newsCountry: iso2CountryCode,
+                  },
+                  success: function(result) {
+                      console.log('News Data', result);
+                      if (result.status == "No matches for your search.") {
+                          $('#txtHeadlineTitle').hide();
+                          $('#newsList').hide();
+                          $('#noNews').html('Sorry, the Newscatcher API does not have articles for this country.');
+                      }
+                      else if (result.status == "ok") {
+                          $('#newsList').html("");
+                          for (var i=0; i<result.articles.length; i++) {
+                              $("#newsList").append('<li><a href='+ result.articles[i].link + '>' + result.articles[i].title + '</a></li>');
+                      }                
+                  }},
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              }); 
+
+              //Covid info
+              $.ajax({
+                  url: "../gazetteer/php/covid.php",
+                  type: 'GET',
+                  dataType: 'json',
+                  data: {
+                      covidCountry: iso2CountryCode,
+                  },
+                  success: function(result) {
+                      console.log('Covid Data',result.covidData);
+                      
+                      
+                      if (result.status.name == "ok") {
+                          $('#txtCovidDeaths').html('Deaths: ' + result.covidData.deaths + '<br>');
+                          $('#txtCovidCases').html('Cases: ' + result.covidData.confirmed + '<br>');
+                          $('#txtCovidRecovered').html('Recoveries: ' + result.covidData.recovered + '<br>');
+                          $('#txtCovidCritical').html('Critical Patients: ' + result.covidData.critical + '<br>');
+                          $('#txtCovidDeathRate').html('Death rate: ' + result.covidData.calculated.death_rate + '<br>');
+
+
+                          
+                      }
+                  
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              });  
+
+              // Exchange Rates
+              $.ajax({
+                  url: "../gazetteer/php/exchangeRates.php",
+                  type: 'GET',
+                  dataType: 'json',
+                  success: function(result) {
+                      console.log('exchange rates',result);
+                      if (result.status.name == "ok") {
+                      
+                      exchangeRate = result.exchangeRate.rates[currencyCode];
+                      $('#txtRate').html('Current Exchange Rate: ' + exchangeRate + ' ' + currencyCode + ' to 1 USD. <br>');
+                      }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              });  
+              //openWeather API          
+              $.ajax({
+                  url: "../gazetteer/php/openWeatherCurrent.php",
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                      capital: capitalCityWeather,
+                  }, 
+                  success: function(result) {
+                      console.log('CurrentCapitalWeather', result);
+                      capitalCityLat = result.weatherData.coord.lat;
+                      capitalCityLon = result.weatherData.coord.lon;
+                      
+                      if (result.status.name == "ok") {
+          
+                          $('#txtCapitalWeatherCurrent').html('&nbsp;&nbsp;&nbsp;&nbsp;Today\'s Weather: '+ result.weatherData.weather[0].description +' with temp of ' + result.weatherData.main.temp +'&#8451<br>');
+                          $('#txtCapitalWeatherLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today\'\s Low: ' + result.weatherData.main.temp_min +'&#8451<br>');
+                          $('#txtCapitalWeatherHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today\'\s High: ' + result.weatherData.main.temp_max +'&#8451<br>');
+                          
+                          //forcast API
+                          $.ajax({
+                              url: "../gazetteer/php/openWeatherForcast.php",
+                              type: 'GET',
+                              dataType: 'json',
+                              data: {
+                                  lat: capitalCityLat,
+                                  lng: capitalCityLon
+                              },
+                              success: function(result) {
+                                  
+                                  console.log('Weather Forecast',result);
+                                  
+                                  if (result.status.name == "ok") {
+                                        
+                                        $('#txtCapitalWeatherForcast').html('&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ Weather: ' + result.weatherForcast.daily[1].weather[0].description +' with high of ' + result.weatherForcast.daily[1].temp.max +'&#8451 and low of ' + result.weatherForcast.daily[1].temp.min +'&#8451.<br>');
+                                        $('#txtCapitalWeatherFHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ High: ' + result.weatherForcast.daily[1].temp.max + '&#8451<br>')
+                                        $('#txtCapitalWeatherFLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ Low: ' + result.weatherForcast.daily[1].temp.min + '&#8451<br>')
+                                  }
+                              },
+                              error: function(jqXHR, textStatus, errorThrown) {
+                                  console.log(textStatus, errorThrown);
+                              }
+                          });
+                          
+                          // wiki places of interest
+                          $.ajax({
+                              url: "../gazetteer/php/wikiPlaces.php",
+                              type: 'GET',
+                              dataType: 'json',
+                              data: {
+                                  lat: capitalCityLat,
+                                  lng: capitalCityLon
+                              },
+                              success: function(result) {
+                                  console.log('wikiPlaces Data',result);
+                                  $('#wikiPlaces').html("");
+                                  if (result.status.name == "ok") {
+                                      for (var i=0; i<result.wikiPlaces.length; i++) {
+                                          $("#wikiPlaces").append('<li><a href=https://'+result.wikiPlaces[i].wikipediaUrl+'>'+ result.wikiPlaces[i].title +'</a></li>'+
+                                          result.wikiPlaces[i].summary + '<br>' 
+                                          )}
+                                          }
+                              
+                              },
+                              error: function(jqXHR, textStatus, errorThrown) {
+                                  console.log(textStatus, errorThrown);
+                              }
+                          });
+                      }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(textStatus, errorThrown);
+                  }
+              });              
+          }
       },
-      // In case of error
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR, textStatus, errorThrown);
-      },
-    
-    });
-
-}
-navigator.geolocation.getCurrentPosition(success, function(msg){
-
-    console.error( msg );
-
-});
-  
-}
-
-function displayCountryInfo(countryByAlpha2Code) {
-  
-  const countryData = countries.find(country => country.alpha2Code === countryByAlpha2Code);
-  
-  map.setView(countryData.latlng, 5);
-  
-  //L.marker(countryData.latlng).addTo(map).bindPopup(`
-  L.marker(countryData.latlng).addTo(myMarkers).bindPopup(`
-
-                <p>
-                  <div id="flag-container">
-                    <img src="${countryData.flag}" alt="">
-                  </div>
-                </p><br><br><br>
-                <p>Country: ${countryData.name}
-                <p>Capital: ${countryData.capital}
-                </p><p>Dialing Code: +${countryData.callingCodes[0]}
-                </p><p>Population: ${countryData.population}
-                </p><p>Currencies: ${countryData.currencies.filter(c => c.name).map(c => `${c.name} (${c.code})`).join(", ")}
-                </p><p>Region: ${countryData.region}</p><p>Subregion: ${countryData.subregion}</p>
-            `);  
-
-}
-
-countriesList.addEventListener("change", newCountrySelection);
-
-function newCountrySelection(event) {
-
-    displayCountryInfo(event.target.value);
-
-  }
-
-$('#clear_markers').click(function () {
-    myMarkers.eachLayer(function (layer) {
-    
-      myMarkers.removeLayer(layer);
-    
-    });
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }  
+  }); 
 });
 
 
-*/
-
-
-
-// paddy -->>  When clicking in a country fire same thing than when using the select

@@ -1,130 +1,52 @@
-* {
-    box-sizing: border-box;
-  }
-
-.leaflet-popup-content-wrapper {
-    border-radius: 0;
-    /*background: black;
-    color: white;*/
-    font-size:10px
+*, *::after, *::before {
+  box-sizing: border-box;
 }
 
-.leaflet-popup-content {
-    margin: 5px;
-}
-
-.leaflet-popup-tip {
-    /*background: black;*/
-}
-
-#map {
-    /*margin-left: 22%;
-    margin-top: 30px;*/
-    /*position: relative; top: 0; bottom: 0; left: 0; right: 0;*/
-    position: relative;
-    float: right;
-}
 body {
-    padding: 0; margin: 0;
-    /*background-color: black;*/
+    padding: 0;
+    margin: 0;
 }
 html, body, #map {
-    height: 100%; width: 100vw;
-}
-
-
-       
-
-#loading {
-    width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    display: block;
-    opacity: 0.7;
-    background-color: #fff;
-    z-index: 99;
-    text-align: center;
-  }
-  
-#loading-image {
-    position: absolute;
-    top: 100px;
-    left: 240px;
-    z-index: 100;
+    width: 100vw;
 }
 
-.button {
-      padding: 0;
-      width: 32px;
-      height: 37px;
-      line-height: 0px;
-  }
-  
-#main-container {
-  width: 502px;
-  margin: 30px auto;
-  padding: 0;
+.navbar {
+  background-color: #e3f2fd;
 }
-#flag-container {
-  height: 48px;
-  width: 62px;
-  /*margin: 5px 5px 5px 5px;*/
-  /*padding-left:10px;*/
-  background-color: #fff;
-  /*border: 1px solid #333;*/
-  align: left;
-  float: left;
+h3 {
+  padding-left: 1rem;
 }
-#flag-container img {
-  display: flexbox;
-  width: 100%;
-  height: 100%;
-  
+#selCountry{
+  margin-left: .5rem;
 }
-#info-container {
-  display: flexbox;
-  margin: 0px;
-  padding: 2px;
-  min-width: 100%;
-  color: #333;
-  font-size: 14px;
-  /*font-weight: 900;*/
-  float: left;
-  /*text-align-last: center;*/
-}
-#info-container p {
-  padding: 0px;
-  line-height: 12px;
-  font-weight: 600;
-  
-  
-}
-#info-container p span {
-  font-weight: normal;
+#btnRun{
+  margin-left: .5rem;
   
 }
 
-#countries {
-    
-  margin-left: 5px;
-  margin-top: 5px;
+.modal-body {
+
+  height: 70vh;
+
+  overflow-y: auto;
+
 }
 
-.input {
-  margin-left: 8px;
-  margin-top: 0px;
-  margin-bottom: 2px;
+/*weather section styles*/
+#txtCapitalWeatherCurrent {
+  font-weight: bold;
 }
 
-#selLng {
-  margin-left: 4px;
+#txtCapitalWeatherHi, #txtCapitalWeatherFHi{
+  color: red;
 }
 
-#logo {
-  position: absolute;
-  align: center;
-  /*top: 150px;*/
-  left: 40px;1
+#txtCapitalWeatherLo, #txtCapitalWeatherFLo{
+  color: blue;
 }
+
+#txtCapitalWeatherForcast {
+  font-weight: bold;
+}
+
