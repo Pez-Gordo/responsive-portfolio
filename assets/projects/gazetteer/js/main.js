@@ -170,8 +170,8 @@ $('#btnRun').click(function() {
               countryName = countryName2.replace(/\s+/g, '_');
               
               $('#txtName').html(result['data']['name']+ '<br>');
-              $('#txtCurrency').html('Currency: ' + result.currency.name + '<br>');
-              $('#txtCurrencyCode').html('Currency Code: ' + result.currency.code + '<br>');
+              $('#txtCurrency').html('<strong> ' + result.currency.name + '</strong><br>');
+              $('#txtCurrencyCode').html('Code: <strong>' + result.currency.code + '</strong><br>');
           
       //wikipedia country extracts
               $.ajax({
@@ -199,12 +199,12 @@ $('#btnRun').click(function() {
                   success: function(result) {
                       console.log('Geonames Data', result);
                       if (result.status.name == "ok") {
-                        $('#txtCapital').html('Capital: '+result.data[0].capital+ '<br>');
-                        $('#txtCapital2').html('<strong>' + result.data[0].capital+ '\'\s Weather</strong><br>');
-                        $('#txtAreaInSqKm').html('Area in Sq Km: '+result.data[0].areaInSqKm+ '<br>');
-                        $('#txtContinent').html('Continent: '+result.data[0].continent+ '<br>');
-                        $('#txtPopulation').html('Population: '+result.data[0].population+ '<br>');
-                        $('#txtLanguages').html('Languages: '+ result.data[0].languages + '<br>');
+                        $('#txtCapital').html('Capital: <strong>'+result.data[0].capital+ '</strong><br>');
+                        //$('#txtCapital2').html('<strong>' + result.data[0].capital+ '\'\s Weather</strong><br>');
+                        $('#txtAreaInSqKm').html('Area in Sq Km: <strong>'+result.data[0].areaInSqKm+ '</strong><br>');
+                        $('#txtContinent').html('Continent: <strong>'+result.data[0].continent+ '</strong><br>');
+                        $('#txtPopulation').html('Population: <strong>'+result.data[0].population+ '</strong><br>');
+                        $('#txtLanguages').html('Languages: <strong>'+ result.data[0].languages + '</strong><br>');
                       }
                     },
                   error: function(jqXHR, textStatus, errorThrown) {
@@ -252,10 +252,10 @@ $('#btnRun').click(function() {
                       
                       if (result.status.name == "ok") {
                           $('#txtCovidDeaths').html('Deaths: ' + result.covidData.deaths + '<br>');
-                          $('#txtCovidCases').html('Cases: ' + result.covidData.confirmed + '<br>');
+                          $('#txtCovidCases').html('Total Registered Cases: ' + result.covidData.confirmed + '<br>');
                           $('#txtCovidRecovered').html('Recoveries: ' + result.covidData.recovered + '<br>');
-                          $('#txtCovidCritical').html('Critical Patients: ' + result.covidData.critical + '<br>');
-                          $('#txtCovidDeathRate').html('Death rate: ' + result.covidData.calculated.death_rate + '<br>');
+                          $('#txtCovidCritical').html('Current Critical Patients: ' + result.covidData.critical + '<br>');
+                          $('#txtCovidDeathRate').html('<strong>Death rate: ' + result.covidData.calculated.death_rate.toFixed(1) + ' %</strong><br>');
 
 
                           
@@ -277,7 +277,7 @@ $('#btnRun').click(function() {
                       if (result.status.name == "ok") {
                       
                       exchangeRate = result.exchangeRate.rates[currencyCode];
-                      $('#txtRate').html('Current Exchange Rate: ' + exchangeRate + ' ' + currencyCode + ' to 1 USD. <br>');
+                      $('#txtRate').html('Ex. Rate: <strong>' + exchangeRate.toFixed(3) + '</strong> ' + currencyCode + ' to <strong>1</strong> USD. <br>');
                       }
                   },
                   error: function(jqXHR, textStatus, errorThrown) {
@@ -299,9 +299,9 @@ $('#btnRun').click(function() {
                       
                       if (result.status.name == "ok") {
           
-                          $('#txtCapitalWeatherCurrent').html('&nbsp;&nbsp;&nbsp;&nbsp;Today\'s Weather: '+ result.weatherData.weather[0].description +' with temp of ' + result.weatherData.main.temp +'&#8451<br>');
-                          $('#txtCapitalWeatherLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today\'\s Low: ' + result.weatherData.main.temp_min +'&#8451<br>');
-                          $('#txtCapitalWeatherHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Today\'\s High: ' + result.weatherData.main.temp_max +'&#8451<br>');
+                          $('#txtCapitalWeatherCurrent').html('&nbsp;&nbsp;&nbsp;&nbsp;Today: &nbsp;&nbsp;'+ result.weatherData.weather[0].description +'&nbsp;&nbsp; || &nbsp;&nbsp; current temp: &nbsp;' + result.weatherData.main.temp +'&#8451<br>');
+                          $('#txtCapitalWeatherLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Low: ' + result.weatherData.main.temp_min +'&#8451<br>');
+                          $('#txtCapitalWeatherHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;High: ' + result.weatherData.main.temp_max +'&#8451<br>');
                           
                           //forcast API
                           $.ajax({
@@ -318,9 +318,9 @@ $('#btnRun').click(function() {
                                   
                                   if (result.status.name == "ok") {
                                         
-                                        $('#txtCapitalWeatherForcast').html('&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ Weather: ' + result.weatherForcast.daily[1].weather[0].description +' with high of ' + result.weatherForcast.daily[1].temp.max +'&#8451 and low of ' + result.weatherForcast.daily[1].temp.min +'&#8451.<br>');
-                                        $('#txtCapitalWeatherFHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ High: ' + result.weatherForcast.daily[1].temp.max + '&#8451<br>')
-                                        $('#txtCapitalWeatherFLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow\'s\ Low: ' + result.weatherForcast.daily[1].temp.min + '&#8451<br>')
+                                        $('#txtCapitalWeatherForcast').html('&nbsp;&nbsp;&nbsp;&nbsp;Tomorrow: &nbsp;&nbsp;' + result.weatherForcast.daily[1].weather[0].description +'<br>');
+                                        $('#txtCapitalWeatherFHi').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expected High: ' + result.weatherForcast.daily[1].temp.max + '&#8451<br>')
+                                        $('#txtCapitalWeatherFLo').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Expected Low: ' + result.weatherForcast.daily[1].temp.min + '&#8451<br>')
                                   }
                               },
                               error: function(jqXHR, textStatus, errorThrown) {

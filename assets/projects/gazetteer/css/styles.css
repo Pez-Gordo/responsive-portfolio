@@ -37,6 +37,14 @@ h3 {
 }
   /* Info container section styles*/
 
+  /* Header */
+
+.modal-title {
+  color: green;
+  text-align: center;
+  font-weight: bold;
+}
+
 .modal-body {
 
   height: 70vh;
@@ -45,6 +53,52 @@ h3 {
 
   /*background-color: #fbb8d2;*/
 
+}
+  /* fichas */
+#nav-covid {
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 40px;
+}
+
+#nav-currency {
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 40px;
+}
+
+#nav-generalInfo {
+  text-align: left;
+  padding-left: 20px;
+  padding-top: 40px;
+}
+
+#nav-home {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+#nav-weather{
+  padding-top: 40px;
+  /*padding-left: 20px;*/
+}
+
+#nav-wikiPlaces {
+ /* padding-left: 20px;*/
+  padding-top: 20px;
+}
+
+#nav-news {
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+#txtCovidDeaths {
+  color: red;
+}
+
+.nav-link {
+  color: green;
 }
 
 .modal {
@@ -72,3 +126,11 @@ h3 {
   font-weight: bold;
 }
 
+/* Footer */
+
+#btnClose {
+  margin-left: .5rem;
+  background-color: #52d241;
+  border: 1px solid #52d241;
+  font-weight: bold; 
+}
