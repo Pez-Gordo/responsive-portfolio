@@ -8,6 +8,7 @@ let capitalCityLon;
 let iso2CountryCode;
 let capitalCity;
 let visitedCountries = [];
+let popup;
 
 let flagArray = true;
 
@@ -438,12 +439,33 @@ map.on('click', function(e) {
 });        
 });
 
+// Adding buttons
+
 // Adding new earthquake API info. When clicking this button it'll trigger event
 
 var helloPopup = L.popup().setContent('Hello World!');
 
 L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
     helloPopup.setLatLng(map.getCenter()).openOn(map);
+}).addTo(map);
+
+// Adding button for visited countries list
+
+
+
+
+L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
+    
+
+    popup = 'Visited Countries: <br><br>';
+
+    for (var i = 0; i < visitedCountries.length; i++) {
+        popup = popup + visitedCountries[i] + '<br>';
+    }
+
+    var countriesPopup = L.popup().setContent(popup);
+
+    countriesPopup.setLatLng(map.getCenter()).openOn(map);
 }).addTo(map);
 
 
