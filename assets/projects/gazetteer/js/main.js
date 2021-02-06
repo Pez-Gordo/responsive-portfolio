@@ -445,7 +445,7 @@ map.on('click', function(e) {
 
 var helloPopup = L.popup().setContent('Hello World!');
 
-L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
+L.easyButton('<img src="../img/eq.png">', function(btn, map){
     helloPopup.setLatLng(map.getCenter()).openOn(map);
 }).addTo(map);
 
@@ -454,7 +454,7 @@ L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
 
 
 
-L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
+L.easyButton('<img src="../img/lista.png">', function(btn, map){
     
 
     popup = 'Visited Countries: <br><br>';

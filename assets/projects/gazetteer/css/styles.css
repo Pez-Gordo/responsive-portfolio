@@ -25,17 +25,19 @@ h3 {
 }
 #btnRun{
   margin-left: .5rem;
-  background-color: #52d241;
-  border: 1px solid #52d241;
+  background-color: #f5b9d3;
+  border: 1px solid #f5b9d3;
   font-weight: bold;
 }
 
+
 #btnReset{
   margin-left: .5rem;
-  background-color: #52d241;
-  border: 1px solid #52d241;
+  background-color: #f5b9d3;
+  border: 1px solid #f5b9d3;
   font-weight: bold;
 }
+
   /* Info container section styles*/
 
   /* Header */
@@ -55,6 +57,18 @@ h3 {
   /*background-color: #fbb8d2;*/
 
 }
+
+
+/* ------------------- botones ------------------ */
+
+button {
+  padding: 0;
+  width: 32px;
+  height: 37px;
+  line-height: 0px;
+}
+
+
 
 
   /* fichas */
@@ -130,10 +144,33 @@ h3 {
 }
 
 /* Footer */
-
+/*
 #btnClose {
   margin-left: .5rem;
   background-color: #52d241;
   border: 1px solid #52d241;
   font-weight: bold; 
 }
+*/
+#btnClose {
+  
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 0px;
+    background-color: #d5fecf;
+    border: none;
+}
+
+.btn-close {
+  
+  
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 0px;
+    background-color: #d5fecf;
+    border: none;
+
+}
+
