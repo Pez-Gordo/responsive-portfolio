@@ -9,8 +9,6 @@ let iso2CountryCode;
 let capitalCity;
 let visitedCountries = [];
 
-
-
 let flagArray = true;
 
 // asignamos el div con el id="map" a la propiedad map del objeto "L". L viene de "Leaflet"
@@ -138,14 +136,14 @@ $('#selCountry').on('change', function() {
           /*
           for (let i = 0; i < result.data.border.features.length; i++) {
             fullCountryArray.push(result.data.border.features[i])
-            
           }
           
           if (flagArray){
             for (let i = 0; i < fullCountryArray.length; i++) {
-
+                //switch ()
               L.geoJSON(fullCountryArray[i], {
                 color: '#ff2176',
+                //color: '112176',
                 weight: 2,
                 opacity: 0.25
               }).addTo(map);
@@ -154,6 +152,8 @@ $('#selCountry').on('change', function() {
             flagArray = false;
           }
           */
+
+          
 
           for (let i = 0; i < result.data.border.features.length; i++) {
                if (result.data.border.features[i].properties.iso_a3 === countryCode) {
@@ -438,3 +438,35 @@ map.on('click', function(e) {
 });        
 });
 
+// Adding new earthquake API info. When clicking this button it'll trigger event
+
+var helloPopup = L.popup().setContent('Hello World!');
+
+L.easyButton('<img src="../img/earthquake.png">', function(btn, map){
+    helloPopup.setLatLng(map.getCenter()).openOn(map);
+}).addTo(map);
+
+
+// añadir una escala al mapa
+L.control.scale({
+    metric: true,
+    imperial: false,
+    position: 'bottomleft'
+}).addTo(map)
+
+// adding logo watermark
+L.Control.Watermark = L.Control.extend({
+    onAdd: function(map){
+        var img = L.DomUtil.create('img')
+        img.src = '../img/itcslogo.png'
+        img.style.width = '120px'
+        return img
+    },
+    onRemove: function(map){},
+})
+
+L.control.watermark = function(opts){
+    return new L.Control.Watermark(opts)
+}
+
+L.control.watermark({position: 'topright'}).addTo(map)
