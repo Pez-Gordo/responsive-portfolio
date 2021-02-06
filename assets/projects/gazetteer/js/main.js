@@ -7,6 +7,8 @@ let capitalCityLat;
 let capitalCityLon;
 let iso2CountryCode;
 let capitalCity;
+let visitedCountries = [];
+
 
 
 let flagArray = true;
@@ -27,7 +29,7 @@ var customIconOrange = new L.Icon({
 });
 
 // asignamos maptiler como nuestra gradilla 
-L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ytVhVPQvmg9nn3rYyj1s', {
+L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ypfODnzHuwl0bYyyvG3i', {
     attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
     crossOrigin: true
 }).addTo(map)
@@ -102,6 +104,12 @@ navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 $('#selCountry').on('change', function() {
   let countryCode = $('#selCountry').val();
   let countryOptionText= $('#selCountry').find('option:selected').text();
+   
+  // Checking the new visited country is not already in the array and push it
+  if(!visitedCountries.includes(countryOptionText)) {
+    visitedCountries.push(countryOptionText)
+    console.log('Array visited countries', visitedCountries)
+  }
   
   //default to home tab
   const showFirstTab = function () {
@@ -123,12 +131,16 @@ $('#selCountry').on('change', function() {
           //console.log(result.data.border.features)
           let countryArray = [];
           let countryOptionTextArray = [];
-          let fullCountryArray = [];
           
+          //let fullCountryArray = [];
+
+          // populates fullCountryArray with info and colour every other coutry with available info in red
+          /*
           for (let i = 0; i < result.data.border.features.length; i++) {
             fullCountryArray.push(result.data.border.features[i])
             
           }
+          
           if (flagArray){
             for (let i = 0; i < fullCountryArray.length; i++) {
 
@@ -141,6 +153,7 @@ $('#selCountry').on('change', function() {
             }
             flagArray = false;
           }
+          */
 
           for (let i = 0; i < result.data.border.features.length; i++) {
                if (result.data.border.features[i].properties.iso_a3 === countryCode) {
@@ -165,6 +178,7 @@ $('#selCountry').on('change', function() {
                   duration: 2,
                   //maxZoom: 6
               });
+            
               
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -409,7 +423,6 @@ map.on('click', function(e) {
         currentLng = result.data[0].geometry.lng;
 
         
-
         L.marker([currentLat, currentLng], {icon: customIconOrange}).addTo(map).bindPopup("You clicked in: " + result.data[0].components.country);
 
         $("selectOpt select").val(result.data[0].components["ISO_3166-1_alpha-3"]);
