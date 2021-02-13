@@ -1,0 +1,102 @@
+body {
+  background-color: darkgrey;
+}
+
+#boardCanvas {
+  /*position: relative;*/
+  
+  border: solid 5px green;
+  background-color: black;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+
+}
+
+#floatingDiv {
+  float: left;
+  display: none;
+}
+
+#resultDiv {
+  float: left;
+  display: none;
+}
+
+h1 {
+  padding-left: 0px;
+  /*position: relative;*/
+}
+
+#tablaRanking {
+  background-color: green;
+}
+
+#spangreen {
+  color: green;
+}
+
+#spanyellow {
+  color: yellow;
+}
+
+#spanred {
+  color: red;
+}
+
+#infoContainer {
+  max-width: 500;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+#normalBanner {
+  text-align: center;
+}
+
+#scoreboard {
+  font-size: 25;  
+  /*padding-left: 150px;*/
+  text-align: center;
+  
+}
+
+#scoreboardPara {
+    font-size: 40;
+    color: blue;
+    /*padding-left: 100px;*/
+    text-align: center;
+    
+}
+
+.parpadea {
+  animation-name: parpadeo;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name:parpadeo;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
