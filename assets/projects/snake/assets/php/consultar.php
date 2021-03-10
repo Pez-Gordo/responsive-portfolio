@@ -17,6 +17,8 @@ $resultCheck=mysqli_num_rows($results);
 
 if ($resultCheck > 0) {    
     echo "<table border='1' id='tablaRanking'>";
+    echo "<tr><td><strong>Player</strong></td><td><strong>Score</strong></td><td><strong>Message</strong></td></tr>";
+
     while ($row = mysqli_fetch_assoc($results)) {
         echo "<tr><td>" . $row['usuario'] . "</td><td>" . $row['score'] . "</td><td>" . $row['say'] . "</td></tr>";
     }

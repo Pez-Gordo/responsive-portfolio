@@ -1,29 +1,22 @@
-﻿<?php
-$remitente = $_POST['email'];
-$destinatario = 'emvenegas@gmail.com'; // en esta línea va el mail del destinatario.
-$asunto = 'Consulta'; // acá se puede modificar el asunto del mail
-if (!$_POST){
-?>
-    echo "Error al enviar mensaje";
-<?php
-}else{
-	 
-    $cuerpo = "Nombre y apellido: " . $_POST["nombre"] . "\r\n"; 
-    $cuerpo .= "Email: " . $_POST["email"] . "\r\n";
-	$cuerpo .= "Consulta: " . $_POST["consulta"] . "\r\n";
-	//las líneas de arriba definen el contenido del mail. Las palabras que están dentro de $_POST[""] deben coincidir con el "name" de cada campo. 
-	// Si se agrega un campo al formulario, hay que agregarlo acá.
+﻿<?php 
 
-    $headers  = "MIME-Version: 1.0\n";
-    $headers .= "Content-type: text/plain; charset=utf-8\n";
-    $headers .= "X-Priority: 3\n";
-    $headers .= "X-MSMail-Priority: Normal\n";
-    $headers .= "X-Mailer: php\n";
-    //$headers .= "From: \"".$_POST['nombre']." ".$_POST['apellido']."\" <".$remitente.">\n";
-    $headers .= "From: \"".$_POST['nombre']." \" <".$remitente.">\n";
+    if( isset($_POST['n']) && isset($_POST['e']) && isset($_POST['m']) ) {
+        $n = $_POST['n'];
+        $e = $_POST['e'];
+        $m = nl2br($_POST['m']);
+        $to = "emvenegas@gmail.com";
+        $from = $e;
+        $subject = 'Contact Form Message';
+        $message = '<b>Name:</b> '.$n.' <br><b>Email:</b> '.$e.' <p>'.$m.'</p>';
+        $headers = "From: $from\n";
+        $headers .= "MIME-Version: 1.0\n";
+        $headers .= "Content-type: text/html; charset=iso-8859-1\n";
 
-    mail($destinatario, $asunto, $cuerpo, $headers);
-    
-    include '../html/confirma.html'; //se debe crear un html que confirma el envío
-}
+        if( mail($to, $subject, $message, $headers) ) {
+            echo "success";
+        } else {
+            echo "The server failed to send your message, please try again later.";
+        }
+    }
+
 ?>

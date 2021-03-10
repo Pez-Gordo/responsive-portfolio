@@ -57,5 +57,34 @@ sr.reveal('.work__img',{interval: 200});
 sr.reveal('.contact__input',{interval: 200}); 
 
 
+function _(id) {return document.getElementById(id);}
 
+function submitForm() {
+    //_("mybtn").disabled = true;
+    _("status").innerHTML = 'please wait...';
+
+    var formdata = new FormData();
+    
+    formdata.append( "n", _("n").value );
+    formdata.append( "e", _("e").value );
+    formdata.append( "m", _("m").value );
+
+    var ajax = new XMLHttpRequest();
+
+    ajax.open( "POST", "./assets/php/envia.php");
+    ajax.onreadystatechange = function() {
+        if(ajax.readyState == 4 && ajax.status == 200) {
+            if(ajax.responseText == "success") {
+                _("status").innerHTML = '<h5> Thanks ' + _("n").value + ', your message has been sent.</h5>';
+                console.log("<------------------Email enviado---------->")
+            }
+            else {
+                _("status").innerHTML = ajax.responseText;
+                //_("mybtn").disabled = false;
+            }
+        }
+    }
+    ajax.send( formdata );
+    
+}
 

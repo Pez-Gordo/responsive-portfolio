@@ -50,6 +50,71 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'cat_6',
             img: 'images/cat_6.jpeg'
         },
+        {
+            name: 'cat_7',
+            img: 'images/cat_7.jpeg'
+        },
+        {
+            name: 'cat_7',
+            img: 'images/cat_7.jpeg'
+        },
+        {
+            name: 'cat_8',
+            img: 'images/cat_8.jpeg'
+        },
+        {
+            name: 'cat_8',
+            img: 'images/cat_8.jpeg'
+        },
+        {
+            name: 'cat_9',
+            img: 'images/cat_9.jpeg'
+        },
+        {
+            name: 'cat_9',
+            img: 'images/cat_9.jpeg'
+        },
+        {
+            name: 'cat_10',
+            img: 'images/cat_10.jpeg'
+        },
+        {
+            name: 'cat_10',
+            img: 'images/cat_10.jpeg'
+        },
+        {
+            name: 'cat_11',
+            img: 'images/cat_11.jpeg'
+        },
+        {
+            name: 'cat_11',
+            img: 'images/cat_11.jpeg'
+        },
+        {
+            name: 'cat_12',
+            img: 'images/cat_12.jpeg'
+        },
+        {
+            name: 'cat_12',
+            img: 'images/cat_12.jpeg'
+        },
+        {
+            name: 'cat_13',
+            img: 'images/cat_13.jpeg'
+        },
+        {
+            name: 'cat_13',
+            img: 'images/cat_13.jpeg'
+        },
+        {
+            name: 'cat_14',
+            img: 'images/cat_14.jpeg'
+        },
+        {
+            name: 'cat_14',
+            img: 'images/cat_14.jpeg'
+        },
+        
     ]
 
     cardArray.sort(() => 0.5 - Math.random());
@@ -59,6 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var cardsChosen = [];
     var cardsChosenId = [];
     var cardsWon = [];
+    var score = 0;
+    var couplesHit = 14;
 
     //create the board
     function createBoard() {
@@ -76,22 +143,32 @@ document.addEventListener('DOMContentLoaded', () => {
         var cards = document.querySelectorAll('img');
         const optionOneId = cardsChosenId[0];
         const optionTwoId = cardsChosenId[1];
-        if (cardsChosen[0] === cardsChosen[1]) {
-            alert('your found a match');
+        if (couplesHit > 1) {
+            if (cardsChosen[0] === cardsChosen[1]) {
+                //alert('your found a match');
+                cards[optionOneId].setAttribute('src', 'images/white.png');
+                cards[optionTwoId].setAttribute('src', 'images/white.png');
+                cardsWon.push(cardsChosen);
+                score += 3;
+                document.querySelector('#score').innerText = score;
+                couplesHit--;
+
+            } else {
+                cards[optionOneId].setAttribute('src', 'images/blank.png');
+                cards[optionTwoId].setAttribute('src', 'images/blank.png');
+                //alert('Sorry try again');
+                score--;
+                document.querySelector('#score').innerText = score;
+            }
+        } else {
+            score += 3;
+            alert("Game Finished. You scored --> " + score)
             cards[optionOneId].setAttribute('src', 'images/white.png');
             cards[optionTwoId].setAttribute('src', 'images/white.png');
-            cardsWon.push(cardsChosen);
-        } else {
-            cards[optionOneId].setAttribute('src', 'images/blank.png');
-            cards[optionTwoId].setAttribute('src', 'images/blank.png');
-            alert('Sorry try again');
         }
         cardsChosen = [];
         cardsChosenId = [];
-        resultDisplay.textContent = cardsWon.length;
-        if (cardsWon.length === cardArray.length / 2) {
-            resultDisplay.textContent = 'Congratulations! You found them all';
-        }
+        
     }
     //flip ypur card
     function flipCard() {
@@ -104,14 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
     createBoard();
-
-
-
-
-
-
-
 
 })
