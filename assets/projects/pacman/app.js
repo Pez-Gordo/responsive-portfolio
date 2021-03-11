@@ -50,6 +50,16 @@ function playSound(s) {
 }
 playSound(melody);
 
+// variables for modals
+
+var rankingTable = document.getElementById("rankingTable")
+var modalForm = document.getElementById("floatingDiv")
+var container = document.getElementById("container")
+
+rankingTable.style.display = "none"
+modalForm.style.display = "none"
+
+
 
     const squares = []
   
@@ -231,6 +241,11 @@ playSound(melody);
         ghosts.forEach(ghost => clearInterval(ghost.timerId))
         document.removeEventListener('keyup', movePacman)
         setTimeout(function(){ alert("Game Over"); }, 500)
+        
+        document.getElementById('floatingDiv').style.display = 'block'
+        var inputScore = document.getElementById('score')
+        inputScore.value = score
+        enviarDatos()
       }
     }
   
@@ -242,6 +257,69 @@ playSound(melody);
         ghosts.forEach(ghost => clearInterval(ghost.timerId))
         document.removeEventListener('keyup', movePacman)
         setTimeout(function(){ alert("You have WON!"); }, 500)
+        
+        document.getElementById('floatingDiv').style.display = 'block'
+        var inputScore = document.getElementById('score')
+        inputScore.value = score
+        enviarDatos()
       }
     }
   })
+
+function enviarDatos() {
+  container.style.display = "none"
+  $(document).ready(function(){
+	  $('#btnguardar').click(function(){
+	  	var datos=$('#floatingForm').serialize();
+            console.log(datos)
+            //alert("espera !!!!!!")
+	  	$.ajax({
+	  		type: "POST",
+	  		url: "./php/insertar.php",
+	  		data: datos,
+	  		success: function(r){
+                    alert("Added registry to database")
+	  			console.log(r)
+                    //document.getElementById('floatingDiv').style.display = 'none'
+                    //document.getElementById('resultDiv').style.display = 'block'
+	  		},
+	  		error: function(jqXHR, textStatus, errorThrown) {
+            		console.log(textStatus, errorThrown);
+        		},
+	  	});
+            
+	  	return false;
+	  });
+	});
+}
+
+function leerDatos() {
+  $.ajax({
+    url: "./php/consultar.php",
+    method: 'POST',
+    dataType: 'json',
+    success: function(r) {
+        console.log("JSON result-->",r)
+        
+        if(r != "reachedMax") {
+            $('#tbodyRanking').empty()
+            var rows = ""
+            // Rendering Ranking Table
+            for(var i = 0; i < r.length; i++) {
+                rows += "<tr><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+            }
+            $('#tbodyRanking').append(rows)
+        }
+    }
+  })
+    
+}
+
+
+
+$('#btnconsulta').click(function(){
+    leerDatos()
+    floatingDiv.style.display = "none"
+    rankingTable.style.display = "inline-block"
+    container.style.display = "none"
+})

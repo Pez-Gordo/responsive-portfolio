@@ -16,12 +16,71 @@
 <meta charset="utf-8">
 <title>Pac-man</title>
 <link rel="stylesheet" href="style.css">
+<script src="./jQuery/jquery-3.2.1.min.js"></script>
+
 
 </head>
 <body>
-<div class="grid"></div>
 
-<h3>Score:<span id="score"></span></h3>
+      <!-- === === Modal Form  === === -->
+
+      <div id="floatingDiv">
+        <form method="POST" id="floatingForm">
+            
+		    <label>Player: (Max: 12)</label>
+		    <p></p>
+		    <input type="text" name="usuario" id="usuario" maxlenght=12 pattern="{1,12}" required>
+		    <p></p>
+		    <label>Say something!! (Max: 120)</label>
+		    <p></p>
+		    <input type="text" name="say" id="say" maxlength=120>
+            <p></p>
+            <label hidden>Score</label>
+		    <p></p>
+            <input type="number" name="score" id="score" hidden>
+		    <p></p>
+		    <button id="btnguardar">Send</button>
+            <br><br>
+
+            <!-- Con este botón hay que implementar una consulta asíncrona para no interferir en la operación de escritura-->
+            <!--<button id="btnconsulta" >See Ranking</button>-->
+            <br><br>
+        </form>
+
+        <button id="btnconsulta" >See Ranking</button>
+
+    </div>
+
+
+    <!-- === === === Modal Ranking === === === -->
+
+    <div id="rankingTable">
+        <h2>Ranking</h2>
+        <table id="ranking">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Comment</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyRanking">
+
+            </tbody>
+        </table>
+        <button id="playAgain" onclick="window.location.reload();">Play Again !</button>
+    </div>
+
+
+    <!-- === === === Game Container === === === -->
+
+    <div class="container" id="container">
+        <h1 class="title">Pac-Man</h1>
+        <div class="grid"></div>
+        <h3>Score:<span id="score"></span></h3>
+    </div>
+
+
 <script src="app.js" charset="utf-8"></script>
 </body>
 </html>
