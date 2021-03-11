@@ -523,12 +523,22 @@ function leerDatos() {
                     var rows = ""
 
                     // Rendering Employees table
-
+                    counter = 1;
                     for(var i = 0; i < r.length; i++) {
-                        rows += "<tr><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+                        if(counter == 1) {
+                            rows += "<tr class='red'><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+                            counter++
                         }
+                        else if (counter == 2) {
+                            rows += "<tr class='yellow'><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+                            counter++
+                        }
+                        else if (counter == 3){
+                            rows += "<tr class='green'><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+                            counter = 1
+                        }
+                    }
                     $('#tbodyRanking').append(rows)
-                    
                 }
             }
         })

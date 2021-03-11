@@ -67,6 +67,18 @@ h1 {
   margin: 0 auto;
 }
 
+.red {
+  color: red;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.green {
+  color:green;
+}
+
 .parpadea {
   animation-name: parpadeo;
   animation-duration: 1s;
