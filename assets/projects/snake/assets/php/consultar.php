@@ -6,7 +6,7 @@ $password = "my*8-9+6POiusql";
 $database = "ranking";
 $conn = mysqli_connect($host, $username, $password, $database);
 
-$query = "SELECT * FROM snake ORDER BY score DESC;";
+$query = "SELECT * FROM snake ORDER BY score DESC";
 
 $results = $conn->query($query);
 
@@ -15,7 +15,16 @@ $resultCheck=mysqli_num_rows($results);
 // Imprime el numero de registros
 //print($resultCheck);
 
-if ($resultCheck > 0) {    
+if ($resultCheck > 0) {
+    $rawData = array();
+    $i = 0;
+    while($data = $results->fetch_array()) {
+        $rawData[$i] = $data;
+        $i++;    
+    }    
+
+    exit(json_encode($rawData));
+    /*
     echo "<table border='1' id='tablaRanking'>";
     echo "<tr><td><strong>Player</strong></td><td><strong>Score</strong></td><td><strong>Message</strong></td></tr>";
 
@@ -23,6 +32,7 @@ if ($resultCheck > 0) {
         echo "<tr><td>" . $row['usuario'] . "</td><td>" . $row['score'] . "</td><td>" . $row['say'] . "</td></tr>";
     }
     echo "</table>";
+    */
 } 
 
 mysqli_close($conn);

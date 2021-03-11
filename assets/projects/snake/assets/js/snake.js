@@ -1,6 +1,8 @@
 
 var canvas = document.getElementById('boardCanvas')
 var context = canvas.getContext("2d")
+var rankingTable = document.getElementById("rankingTable")
+rankingTable.style.display = "none"
 
 context.scale(10, 10)
 
@@ -501,11 +503,43 @@ function enviarDatos() {
 	});
 }
 
+function leerDatos() {
+        $.ajax({
+            url: "./assets/php/consultar.php",
+            method: 'POST',
+            dataType: 'json',
+            success: function(r) {
+                console.log("JSON result-->",r)
+                
+                if(r != "reachedMax") {
+                    $('#tbodyRanking').empty()
+                    var rows = ""
 
+                    // Rendering Employees table
+
+                    for(var i = 0; i < r.length; i++) {
+                        rows += "<tr><td>" + r[i][1] + "</td><td>" + r[i][2] + "</td><td>" + r[i][3] + "</td>"
+                        }
+                    $('#tbodyRanking').append(rows)
+                    
+                }
+            }
+        })
+    
+}
+
+/*
 $('#btnconsulta').click(function(){
     window.open("./assets/php/consultar.php" , "_blank", "width=500,height=300,scrollbars=YES")
     return false;
 })
+*/
+
+$('#btnconsulta').click(function(){
+    leerDatos()
+    rankingTable.style.display = "block"
+})
+
    
 function draw() {
     context.clearRect(0, 0, 500, 500)
