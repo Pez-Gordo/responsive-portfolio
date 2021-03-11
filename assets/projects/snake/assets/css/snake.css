@@ -1,5 +1,7 @@
 body {
   background-color: darkgrey;
+  display: flex;
+  flex-direction: column;
 }
 
 #boardCanvas {
@@ -13,23 +15,9 @@ body {
 
 }
 
-#floatingDiv {
-  float: left;
-  display: none;
-}
-
-#resultDiv {
-  float: left;
-  display: none;
-}
-
 h1 {
   padding-left: 0px;
   /*position: relative;*/
-}
-
-#tablaRanking {
-  background-color: green;
 }
 
 #spangreen {
@@ -68,7 +56,15 @@ h1 {
     color: blue;
     /*padding-left: 100px;*/
     text-align: center;
-    
+}
+
+#floatingDiv {
+  margin: 0 auto;
+  display: none;
+}
+
+#rankingTable {
+  margin: 0 auto;
 }
 
 .parpadea {

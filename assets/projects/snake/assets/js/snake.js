@@ -2,7 +2,10 @@
 var canvas = document.getElementById('boardCanvas')
 var context = canvas.getContext("2d")
 var rankingTable = document.getElementById("rankingTable")
+var floatingDiv = document.getElementById("floatingDiv")
+var infoContainer = document.getElementById("infoContainer")
 rankingTable.style.display = "none"
+//canvas.style.position = "sticky"
 
 context.scale(10, 10)
 
@@ -461,7 +464,9 @@ function updateLoop() {
             if (snake[i][0] == snake[0][0] && snake[i][1] == snake[0][1]) {
                 snake = ( [0, 1] )
                 console.log("Game Over !")
+                canvas.style.display = "none"
                 document.getElementById('floatingDiv').style.display = 'block'
+                infoContainer.style.display = "none"
                 var inputScore = document.getElementById('score')
                 inputScore.value = score
 
@@ -528,16 +533,12 @@ function leerDatos() {
     
 }
 
-/*
-$('#btnconsulta').click(function(){
-    window.open("./assets/php/consultar.php" , "_blank", "width=500,height=300,scrollbars=YES")
-    return false;
-})
-*/
+
 
 $('#btnconsulta').click(function(){
     leerDatos()
-    rankingTable.style.display = "block"
+    floatingDiv.style.display = "none"
+    rankingTable.style.display = "inline-block"
 })
 
    
