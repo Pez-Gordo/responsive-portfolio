@@ -483,6 +483,8 @@ function updateLoop() {
 }
 
 function enviarDatos() {
+    canvas.style.display = "none"
+    infoContainer.style.display = "none"
     $(document).ready(function(){
 		$('#btnguardar').click(function(){
 			var datos=$('#floatingForm').serialize();
@@ -538,7 +540,9 @@ function leerDatos() {
 $('#btnconsulta').click(function(){
     leerDatos()
     floatingDiv.style.display = "none"
+    infoContainer.style.display = "none"
     rankingTable.style.display = "inline-block"
+    canvas.style.display = "none"
 })
 
    
