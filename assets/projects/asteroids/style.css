@@ -2,9 +2,20 @@ body{
     background: #000;
 }
 #container {
-    max-width: 1400px;
+   /* max-width: 1400px;*/
+    display: flex;
+    flex-direction: column;
 }
 #my-canvas {
     background: #000;
-    border: 1px solid #fff;
+    border: 1px solid rgb(87, 255, 87);
+    max-width: 1200px;
+    max-height: 600px;
+    margin: 0 auto;
+    
+}
+
+#banner {
+    margin: 0 auto;
+    max-width: 700px;
 }

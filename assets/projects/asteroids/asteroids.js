@@ -58,7 +58,8 @@ class Ship {
         this.rotateSpeed = 0.001;  
         this.radius = 15;
         this.angle = 0;
-        this.strokeColor = "white";
+        //this.strokeColor = "#58fa47";
+        this.strokeColor = "red";
         this.noseX = canvasWidth / 2 + 15;
         this.noseY = canvasHeight / 2;
     }
@@ -122,7 +123,7 @@ class Bullet{
         this.y -= Math.sin(radians) * this.speed;
     }
     Draw(){
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'yellow';
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
@@ -135,7 +136,7 @@ class Asteroid{
         this.speed = 3;
         this.radius = radius || 50;
         this.angle = Math.floor(Math.random() * 359);
-        this.strokeColor = 'white';
+        this.strokeColor = '#58fa47';
         this.collisionRadius = collisionRadius || 46;
         this.level = level || 1;
     }
@@ -157,6 +158,7 @@ class Asteroid{
         }
     }
     Draw(){
+        ctx.strokeStyle = this.strokeColor;
         ctx.beginPath();
         let vertAngle = ((Math.PI * 2) / 6);
         var radians = this.angle / Math.PI * 180;
@@ -186,7 +188,7 @@ function DrawLifeShips() {
     let startX = 1350;
     let startY = 10;
     let points = [[9,9],[-9,9]];
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = 'red';
     for(let i = 0; i < lives; i++){
         ctx.beginPath();
         ctx.moveTo(startX, startY);
@@ -200,20 +202,20 @@ function DrawLifeShips() {
 }
 
 function Render() {
-    ship.movingForward = (keys[87]);
-    if(keys[68]){
+    ship.movingForward = (keys[38]);
+    if(keys[39]){
         ship.Rotate(1);
     }
-      if(keys[65]){
+      if(keys[37]){
         ship.Rotate(-1);
     }
     ctx.clearRect(0,0,canvasWidth,canvasHeight);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'yellow';
     ctx.font = '21px Arial';
     ctx.fillText('SCORE: ' + score.toString(), 20, 35);
     if(lives <= 0){
         ship.visible = false;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = 'red';
         ctx.font = '50px Arial';
         ctx.fillText('GAME OVER', canvasWidth / 2 - 150, canvasHeight /2);
     }
