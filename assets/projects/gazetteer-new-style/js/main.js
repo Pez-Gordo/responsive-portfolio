@@ -68,17 +68,17 @@ var mapboxAttribution = 'Map data &copy; <a href="https://www.openstreetmap.org/
 var token = 'pk.eyJ1IjoicGV6IiwiYSI6ImNraWFlcDVsYTBpMW0ycnJreWRxdnNneXIifQ._2kq-bt8gs8Wmc5JIY-6NQ'
 
 var dark = L.tileLayer(mapboxUrl, {id: 'mapbox/dark-v10', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token}),
-    streets   = L.tileLayer(mapboxUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
+    //streets   = L.tileLayer(mapboxUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
     outdoors   = L.tileLayer(mapboxUrl, {id: 'mapbox/outdoors-v11', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
     light   = L.tileLayer(mapboxUrl, {id: 'mapbox/light-v10', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
     satellite   = L.tileLayer(mapboxUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
     satStreets   = L.tileLayer(mapboxUrl, {id: 'mapbox/satellite-streets-v11', tileSize: 512, zoomOffset: -1, attribution: mapboxAttribution, accessToken: token});
 
 var baseMaps = {
-    "Streets": streets,
+    "Light": light,
+   // "Streets": streets,
     "Dark": dark,
     "Outdoors": outdoors,
-    "Light": light,
     "Satellite": satellite,
     "Stellite-Streets": satStreets
 };
@@ -86,7 +86,7 @@ var baseMaps = {
 var map = L.map('map', {
     
     zoom: 10,
-    layers: [streets]
+    layers: [light]
 }).fitWorld();
 
 L.control.layers(baseMaps).addTo(map);
@@ -211,8 +211,16 @@ $('#selCountry').on('change', function() {
                                                         weight: 3,
                                                         opacity: 0.75
                                                         }).addTo(map);
+
+        console.log("<<<<countryOTA>>>>", countryOptionTextArray[0])
+
+        console.log("<<<----->>> Border", border)
+                                                        
         let bounds = border.getBounds();
-            map.flyToBounds(bounds, {
+
+        console.log("<<<....>>> Bounds", bounds)
+            
+        map.flyToBounds(bounds, {
             padding: [35, 35], 
             duration: 2,
             });                          
