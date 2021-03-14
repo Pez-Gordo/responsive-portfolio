@@ -221,6 +221,13 @@ function Render() {
     }
     DrawLifeShips();
 
+    if(asteroids.length == 0){
+        //ship.visible = false;
+        ctx.fillStyle = 'yellow';
+        ctx.font = '50px Arial';
+        ctx.fillText('VICTORY !', canvasWidth / 2 - 150, canvasHeight /2);
+    }
+
     if(asteroids.length !== 0){
         for(let k = 0; k < asteroids.length; k++){
             if(CircleCollision(ship.x, ship.y, 11, asteroids[k].x, asteroids[k].y, asteroids[k].collisionRadius)){
