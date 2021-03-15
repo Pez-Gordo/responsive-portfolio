@@ -77,6 +77,9 @@ function submitForm() {
             if(ajax.responseText == "success") {
                 _("status").innerHTML = '<h5> Thanks ' + _("n").value + ', your message has been sent.</h5>';
                 console.log("<------------------Email enviado---------->")
+                _("n").value = ""
+                _("e").value = ""
+                _("m").value = ""
             }
             else {
                 _("status").innerHTML = ajax.responseText;
