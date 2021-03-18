@@ -135,6 +135,29 @@ function playerDrop() {
     dropCounter = 0;
 }
 
+function playerFullDrop() {
+    while(!collide(arena, player)) {
+        player.pos.y++;
+    }
+
+    player.pos.y--;
+    merge(arena, player);
+    playerReset();
+    arenaSweep();
+    updateScore();
+
+    /*
+    if (collide(arena, player)) {
+        player.pos.y--;
+        merge(arena, player);
+        playerReset();
+        arenaSweep();
+        updateScore();
+    }
+    dropCounter = 0;
+    */
+}
+
 function playerMove(dir) {
     player.pos.x += dir;
     if (collide(arena, player)) {
@@ -213,13 +236,13 @@ function updateScore() {
 
 const colors = [
     null,
-    '#FF0D72',
-    '#0DC2FF',
-    '#0DFF72',
-    '#F538FF',
-    '#FF8E0D',
-    '#FFE138',
-    '#3877FF',
+    'magenta',
+    'yellow',
+    'orange',
+    'blue',
+    'cyan',
+    'green',
+    'red',
 ];
 
 const arena = createMatrix(12, 20);
@@ -243,6 +266,8 @@ document.addEventListener('keydown', event => {
         playerRotate(-1);
     } else if (event.keyCode === 87) {
         playerRotate(1);
+    } else if (event.keyCode === 38) {
+        playerFullDrop();
     }
 });
 
