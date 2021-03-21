@@ -1,6 +1,9 @@
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
 
+let banner = document.getElementById('banner')
+banner.style.display = 'none'
+
 
 
 context.scale(20, 20);
@@ -93,8 +96,6 @@ function draw() {
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    
-
     drawMatrix(arena, {x: 0, y: 0});
     
     drawMatrix(player.matrix, player.pos);
@@ -146,16 +147,6 @@ function playerFullDrop() {
     arenaSweep();
     updateScore();
 
-    /*
-    if (collide(arena, player)) {
-        player.pos.y--;
-        merge(arena, player);
-        playerReset();
-        arenaSweep();
-        updateScore();
-    }
-    dropCounter = 0;
-    */
 }
 
 function playerMove(dir) {
@@ -174,7 +165,17 @@ function playerReset() {
         arena.forEach(row => row.fill(0));
         player.score = 0;
         updateScore();
+        //console.log('<<<---HOLA--->>>')
+        gameOver()
     }
+}
+
+function gameOver() {
+    canvas.style.display = 'none'
+    banner.style.display = 'block'
+
+    
+
 }
 
 function playerRotate(dir) {
@@ -224,7 +225,28 @@ function update(time = 0) {
     dropCounter += deltaTime;
     if (dropCounter > dropInterval) {
         playerDrop();
-    }
+    } 
+    
+    if(player.score > 150 && player.score < 300) {
+        dropInterval = 920
+    } else if(player.score > 299 && player.score < 450) {
+        dropInterval = 860
+    } else if(player.score > 449 && player.score < 600 ) {
+        dropInterval = 780
+    } else if(player.score > 599 && player.score < 750) {
+        dropInterval = 700
+    }  else if(player.score > 749 && player.score < 900) {
+        dropInterval = 620
+    }  else if(player.score > 899 && player.score < 1150) {
+        dropInterval = 540
+    }  else if(player.score > 1149 && player.score < 1300) {
+        dropInterval = 460
+    }  else if(player.score > 1299 && player.score < 1450) {
+        dropInterval = 380
+    }  else if(player.score > 1449) {
+        dropInterval = 300
+    }  
+    
 
     draw();
     requestAnimationFrame(update);
